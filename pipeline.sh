@@ -51,7 +51,7 @@
 	mkdir result/geneset
 	for j in {1..5};do
 		mkdir result/geneset/EB00000${j}
-		for i in $(cat "EB00000${j}.txt");do
+		for i in $(cat "biome_list/EB00000${j}.txt");do
 			cat temp/${i}/metagenemark/${i}_prot.fa >> result/geneset/EB00000${j}/EB00000${j}_all_prot.fa
 		done
 	done
@@ -140,7 +140,7 @@
 	## 9.1 分生境构建基因组集
 	for j in {1..5};do
 		mkdir result/genomeset/EB00000${j}
-		for i in $(cat "EB00000${j}.txt");do
+		for i in $(cat "biome_list/EB00000${j}.txt");do
 			cp temp/${i}/metawrap/CheckM/metabat2_bins_50_10/*.fa result/genomeset/EB00000${j}/EB00000${j}_all_genome
 		done
 		ls result/genomeset/EB00000${j}/EB00000${j}_all_genome > result/genomeset/EB00000${j}/EB00000${j}_all_genome.txt
