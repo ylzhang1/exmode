@@ -1,0 +1,110 @@
+--soft
+	--metagenemark
+		MetaGeneMark_v1.mod
+	--cazydb
+		cazy.dmnd
+	--metaWRAP
+		--bin
+			--metawrap-scripts
+				summarize_checkm.py
+	--bigscape
+		--BiG-SCAPE-1.1.5
+			bigscape.py
+	--pfam
+	--envs
+		--megahit
+		--eggnog
+		--esmfold
+		--rgi
+		--mmseq2
+		--metaphlan4
+		--gtdbtk
+		--drep
+		--antismash
+		--bigscape
+--seq
+	--SAMD00324606
+		--SAMD00324606_1.fastq.gz
+		--SAMD00324606_2.fastq.gz
+	...
+--result
+	--geneset
+		--EB000001
+			--EB000001_cluster_tmp
+			--EB000001_cluster2_tmp
+			EB000001_all_prot.fa
+			EB000001_cluster_rep_seq.fasta
+			EB000001_cluster_cluster.tsv
+			name.change.list
+			Final_TM_geneset_prot.fa
+			EB000001_cluster2_rep_seq.fasta
+			EB000001_cluster2_cluster.tsv
+			EB000001_cluster2.txt
+			Final_TM_geneset_prot2.fa
+			--eggnog
+				EB000001.emapper.annotations
+			--card
+				EB000001_card
+			--cazy
+				EB000001_cazy
+		...
+	--structureset
+		--EB000001
+			--EB000001_structureset
+		...
+	--genomeset
+		--EB000001
+			--EB000001_all_genome
+			EB000001_all_genome.txt
+			--gtdbtk
+			EB000001_genome_path.txt
+			EB000001_checkm.csv
+			--EB000001_drep_genome
+		...
+	--bgcset
+		--EB000001
+			--antismash
+				--result
+					--*.fa
+				--EB000001_allgbks
+			--bigscape_result
+		...
+--temp
+	--SAMD00324606
+		--fastp
+			SAMD00324606_clean_1.fq.gz
+			SAMD00324606_clean_2.fq.gz
+			SAMD00324606_fastp.json
+			SAMD00324606_fastp.html
+		--mp4
+			SAMD00324606.txt
+			bowtie2out_SAMD00324606.bz2
+			merged_abundance_table.txt
+			merged_abundance_species.txt
+			merged_abundance_genus.txt
+			merged_abundance_family.txt
+			merged_abundance_order.txt
+			merged_abundance_class.txt
+			merged_abundance_phylum.txt
+		--assembly
+			SAMD00324606.contigs.fa
+		--metagenemark
+			SAMD00324606.gmm
+			SAMD00324606_prot.fa
+		--metawrap
+			--metabat2_bins
+			--CheckM
+				--storage
+					bin_stats_ext.tsv
+				SAMD00324606_metaBat2.stats.xls
+				SAMD00324606_metaBat2_50_10.stats.xls
+				--metabat2_bins_50_10
+	...
+pipeline.sh
+sample.txt
+metadata.xlsx
+EB000001.txt
+EB000002.txt
+EB000003.txt
+EB000004.txt
+EB000005.txt
