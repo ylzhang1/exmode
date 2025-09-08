@@ -7,7 +7,6 @@
 ### sample.txt
 所有样本列表
 ### pipeline.sh 
-分析流程
 ##### 1. Fastp质控
 ##### 2. Metaphlan4物种组成分析
 ##### 3. Megahit宏基因组组装
