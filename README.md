@@ -3,7 +3,7 @@
 ### biome_list
 五个生境样本列表
 ### metadata.xlsx
-样本元信息表
+所有样本元信息表，包括BioSample、Taxonomy name、Isolation Source、Sample Title、Sample description、Project name、Project description等信息。
 ### sample.txt
 所有样本列表
 ### pipeline.sh 
