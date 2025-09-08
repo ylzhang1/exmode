@@ -1,4 +1,4 @@
-## ExMODE -- Explore extreme environments and protect the code of life on earth
+## ExMODE -- Extremophile Multi-Omics DatabasE
 数据分析流程：
 ### pipeline.sh 
 #### 1. Fastp质控
