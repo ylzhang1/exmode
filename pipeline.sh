@@ -161,7 +161,7 @@
 		--genomeInfo result/genomeset/EB00000${j}/EB00000${j}_checkm.csv 
 	done
 
-## 10. 生物合成基因簇（BGCs）
+## 10. 构建BGC集（生物合成基因簇）
 	## 10.1 Antismash
 	conda activate antismash
 	for j in {1..5};do
