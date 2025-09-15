@@ -7,7 +7,7 @@ Data analysis process：
 #### 4. Gene prediction
 #### 5. Gene sets
 #### 6. Gene functional annotation
-#### 7. Structure sets
+#### 7. Protein structure prediction
 #### 8. Metagenomic binning 
 #### 9. Genomesets
 #### 10. Biosynthetic gene cluster analysis
