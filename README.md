@@ -12,7 +12,6 @@ Data analysis process：
 #### 9. Genomesets
 #### 10. Biosynthetic gene cluster analysis
 ### metadata.xlsx
-所有样本元信息表，包括BioSample、Taxonomy name、Isolation Source、Sample Title、Sample description、Project name、Project description等信息。
 All sample metadata sheets, including BioSample, Taxonomy Name, Isolation Source, Sample Title, Sample Description, Project Name, Project Description, and other relevant information.
 ### sample.txt
 All sample list.
