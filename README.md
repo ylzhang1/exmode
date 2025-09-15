@@ -16,4 +16,4 @@ All sample metadata sheets, including BioSample, Taxonomy Name, Isolation Source
 ### sample.txt
 All sample list.
 ### biome_list
-List of samples from five habitats.
+List of samples from five extreme habitats.
