@@ -12,7 +12,7 @@ Data analysis process：
 #### 9. Genomesets
 #### 10. Biosynthetic gene cluster analysis
 ### metadata.xlsx
-All sample metadata sheets, including BioSample, Taxonomy Name, Isolation Source, Sample Title, Sample Description, Project Name, Project Description, and other relevant information.
+All sample metadata tables, including BioSample, Taxonomy Name, Isolation Source, Sample Title, Sample Description, Project Name, Project Description, and other relevant information.
 ### sample.txt
 All sample list.
 ### biome_list
