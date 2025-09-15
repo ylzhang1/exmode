@@ -1,4 +1,4 @@
-## 1. Fastp质控
+## 1. Quality control (Fastp)
 	for i in `cat sample.txt`;do
 		mkdir temp/${i}/fastp
 		fastp -i seq/${i}/${i}_1.fastq.gz -o temp/${i}/fastp/${i}_clean_1.fq.gz \
@@ -6,15 +6,14 @@
 		--json temp/${i}/fastp/${i}_fastp.json --html temp/${i}/fastp/${i}_fastp.html
 	done
 		
-## 2. Metaphlan4物种组成分析
+## 2. Taxonomic classification (MetaPhlAn4)
 	conda activate metaphlan4
 	for i in `cat sample.txt`;do
 		mkdir temp/${i}/mp4 
 		metaphlan temp/${i}/fastp/${i}_clean_1.fq.gz,temp/${i}/fastp/${i}_clean_2.fq.gz \
 		--input_type fastq -o temp/${i}/mp4/${i}.txt --nproc 10 --bowtie2out temp/${i}/mp4/${i}/bowtie2out_${i}.bz2
 	done
-	
-## 2.1 物种组成表
+
 	for i in `cat sample.txt`;do
 		merge_metaphlan_tables.py temp/${i}/mp4/${i}.txt > temp/${i}/mp4/merged_abundance_table.txt
 		grep -E '(s__)|(clade_name)' temp/${i}/mp4/merged_abundance_table.txt |grep -v 't__'|sed 's/^.*s__//g'|awk '{$2=null;print}'|sed 's/\ \ /\ /g'|sed 's/\ /\t/g' \
@@ -31,23 +30,23 @@
 		> temp/${i}/mp4/merged_abundance_phylum.txt
 	done
 		
-## 3. Megahit组装Assembly
+## 3. Metagenomic assembly (MEGAHIT)
 	conda activate megahit
 	for i in `cat sample.txt`;do
 		megahit -1 temp/${i}/fastp/${i}_clean_1.fq.gz -2 temp/${i}/fastp/${i}_clean_2.fq.gz \
 		-o temp/${i}/assembly --out-prefix ${i} --presets meta-sensitive -t 10
 	done
 
-## 4. Metagenemark基因预测Gene prediction
+## 4. Gene prediction (MetaGeneMark)
 	for i in `cat sample.txt`;do
 		mkdir temp/${i}/metagenemark
 		gmhmmp -m soft/metagenemark/MetaGeneMark_v1.mod \
 		-o temp/${i}/metagenemark/${i}.gmm temp/${i}/assembly/${i}.contigs.fa -A temp/${i}/metagenemark/${i}_prot.fa
 	done
 
-## 5. Mmseq2构建非冗余基因集
+## 5. Non-redundant gene sets (MMseqs2)
 
-## 5.1 分生境构建基因集
+## 5.1 Gene sets
 	mkdir result/geneset
 	for j in {1..5};do
 		mkdir result/geneset/EB00000${j}
@@ -56,7 +55,7 @@
 		done
 	done
 	
-## 5.2 Mmseq2分生境构建非冗余基因集
+## 5.2 Non-redundant gene sets
 	conda activate mmseq2
 	for j in {1..5};do
 		mmseqs easy-cluster result/geneset/EB00000${j}/EB00000${j}_all_prot.fa \
@@ -64,13 +63,13 @@
 		--min-seq-id 0.95 --cov-mode 1 --cluster-mode 3 --threads 35
 	done
 	
-	# 修改序列ID
+	# Modify sequence ID
 	perl -e 'open OU1,">result/geneset/EB000001/Final_TM_geneset_prot.fa"; \
 	open OU2,">result/geneset/EB000001/name.change.list"; \
 	while(<>){ chomp; if(/^>/){ $id=sprintf("%010d",++$id); print OU2 "$_\tTM_$id\n"; print OU1 ">TM_$id\n"; next; } print OU1 "$_\n"; }' \
 	result/geneset/EB000001/EB000001_cluster_rep_seq.fasta
 	
-## 5.3 分生境构建蛋白结构预测集
+## 5.3 Non-redundant structure sets
 	conda activate mmseq2
 	for j in {1..5};do
 		mmseqs easy-cluster result/geneset/EB00000${j}/Final_TM_geneset_prot.fa \
@@ -82,30 +81,30 @@
 	seqkit grep -f result/geneset/EB000001/EB000001_cluster2.txt \
 	result/geneset/EB000001/Final_TM_geneset_prot.fa -o result/geneset/EB000001/Final_TM_geneset_prot2.fa
 
-## 6. 基因注释Gene annotation
+## 6. Gene functional annotation
 	for j in {1..5};do
 		mkdir result/geneset/EB00000${j}/eggnog
 		mkdir result/geneset/EB00000${j}/cazy
 		mkdir result/geneset/EB00000${j}/card
 	done
 	
-## 6.1 EggNOG注释
+## 6.1 COG
 	conda activate eggnog
 	emapper.py -i result/geneset/EB000001/Final_TM_geneset_prot.fa \
 	-o result/geneset/EB000001/eggnog/EB000001 --cpu 20 \
 	--data_dir soft/envs/eggnog/lib/python3.12/site-packages/data --dbmem
 	
-## 6.2 Cazy注释
+## 6.2 Cazy
 	diamond blastp --db soft/cazydb/cazy.dmnd --query result/geneset/EB000001/Final_TM_geneset_prot.fa \
 	-e 0.00001 --outfmt 6 --more-sensitive --max-target-seqs 1 --threads 22 --quiet \
 	--out result/geneset/EB000001/cazy/EB000001_cazy
 
-## 6.3 Card注释
+## 6.3 Card
 	conda activate rgi
 	rgi main --input_sequence result/geneset/EB000001/Final_TM_geneset_prot.fa \
 	--output_file result/geneset/EB000001/card/EB000001_card --local --clean --include_loose -t protein
 
-## 7. ESMfold蛋白结构预测
+## 7. Protein structure prediction (ESMfold)
 	mkdir result/structureset
 	for j in {1..5};do
 		mkdir result/structureset/EB00000${j}
@@ -114,7 +113,7 @@
 	conda activate esmfold
 	esm-fold -i result/geneset/EB000001/Final_TM_geneset_prot2.fa -o result/structureset/EB000001/EB000001_structureset
 
-## 8. MetaWRAP样本分箱Binning
+## 8. Metagenomic binning (MetaWRAP)
 	conda activate metawrap
 	for i in `cat sample.txt`;do
 		mkdir temp/${i}/metawrap
@@ -136,8 +135,8 @@
 		done
 	done
 
-## 9. 构建基因组集
-	## 9.1 分生境构建基因组集
+## 9. Non-redundant genomesets (dRep)
+	## 9.1 Genomesets
 	for j in {1..5};do
 		mkdir result/genomeset/EB00000${j}
 		for i in $(cat "biome_list/EB00000${j}.txt");do
@@ -146,14 +145,14 @@
 		ls result/genomeset/EB00000${j}/EB00000${j}_all_genome > result/genomeset/EB00000${j}/EB00000${j}_all_genome.txt
 	done
 	
-	## 9.2 GTDB-tk物种注释
+	## 9.2 GTDB-tk
 	conda activate gtdbtk
 	for j in {1..5};do
 		gtdbtk classify_wf --skip_ani_screen --genome_dir result/genomeset/EB00000${j}/EB00000${j}_all_genome \
 		--out_dir result/genomeset/EB00000${j}/gtdbtk --cpus 20 -x fa
 	done
 	
-	## 9.3 分生境构建非冗余基因集dRep
+	## 9.3 Non-redundant genomesets
 	conda activate drep
 	for j in {1..5};do
 		dRep dereplicate result/genomeset/EB00000${j}/EB00000${j}_drep_genome -g result/genomeset/EB00000${j}/EB00000${j}_genome_path.txt \
@@ -161,8 +160,7 @@
 		--genomeInfo result/genomeset/EB00000${j}/EB00000${j}_checkm.csv 
 	done
 
-## 10. 构建BGC集（生物合成基因簇）
-	## 10.1 Antismash
+## 10. Biosynthetic gene cluster analysis (antiSMASH)
 	conda activate antismash
 	for j in {1..5};do
 		for i in $(cat "result/genomeset/EB00000${j}/EB00000${j}_all_genome.txt");do
@@ -178,7 +176,6 @@
 		done
 	done
 	
-	## 10.2 Bigscape
 	conda activate bigscape
 	for j in {1..5};do
 		python soft/bigscape/BiG-SCAPE-1.1.5/bigscape.py -i result/bgcset/EB00000${j}/antismash/EB00000{j}_allgbks \
