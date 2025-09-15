@@ -1,19 +1,20 @@
 ## ExMODE -- Extremophile Multi-Omics DatabasE
-数据分析流程：
+Data analysis process：
 ### pipeline.sh 
-#### 1. Fastp质控
-#### 2. Metaphlan4物种组成分析
-#### 3. Megahit宏基因组组装
-#### 4. Metagenemark基因预测
-#### 5. MMseq2构建非冗余基因集
-#### 6. 基因功能注释
-#### 7. ESMfold蛋白结构预测
-#### 8. MetaWRAP宏基因组分箱
-#### 9. 构建非冗余基因组集、物种注释
-#### 10. 生物合成基因簇（BGCs）
+#### 1. Quality control (Fastp)
+#### 2. Taxonomic classification (Metaphlan4)
+#### 3. Metagenomic assembly (MEGAHIT)
+#### 4. Gene prediction (Metagenemark)
+#### 5. Gene sets (MMseq2)
+#### 6. Gene functional annotation (eggNOG-mapper)
+#### 7. Structure sets (ESMfold)
+#### 8. Metagenomic binning (MetaWRAP)
+#### 9. Genomesets (dRep)
+#### 10. Biosynthetic gene cluster analysis（Antismash BiG-SCAPE）
 ### metadata.xlsx
 所有样本元信息表，包括BioSample、Taxonomy name、Isolation Source、Sample Title、Sample description、Project name、Project description等信息。
+All sample metadata sheets, including BioSample, Taxonomy Name, Isolation Source, Sample Title, Sample Description, Project Name, Project Description, and other relevant information.
 ### sample.txt
-所有样本列表
+All sample list.
 ### biome_list
-五个生境样本列表
+List of samples from five habitats.
