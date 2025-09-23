@@ -128,7 +128,7 @@
 		temp/${i}/metawrap/CheckM/storage/bin_stats_ext.tsv ${i}|(read -r;printf %sn ; sort) > \
 		temp/${i}/metawrap/CheckM/${i}_metaBat2.stats.xls
 	
-		awk '$2>50&&$3<10' temp/${i}/metawrap/CheckM/${i}_metaBat2.stats.xls > temp/${i}/metawrap/CheckM/${i}_metaBat2_50_10.stats.xls
+		awk '$2>=50&&$3<=10' temp/${i}/metawrap/CheckM/${i}_metaBat2.stats.xls > temp/${i}/metawrap/CheckM/${i}_metaBat2_50_10.stats.xls
 		mkdir temp/${i}/metawrap/CheckM/metabat2_bins_50_10
 		for k in $(awk 'NR>1 {print $1}' "temp/${i}/metawrap/CheckM/${i}_metaBat2_50_10.stats.xls");do
 			cp temp/${i}/metawrap/metabat2_bins/${k}.fa temp/${i}/metawrap/CheckM/metabat2_bins_50_10/${i}_${k}.fa
